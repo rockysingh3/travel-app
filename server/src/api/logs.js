@@ -4,14 +4,27 @@ const LogEntry = require('../models/LogEntry')
 
 const router = Router();
 
-router.get('/', (req, res) => {
-    res.json({
-        message: 'globe'
-    })
+router.get('/', async (req, res, next) => {
+    try {
+        let entries = await LogEntry.find();
+        res.json(entries);
+    } catch (e) {
+        next(e)
+    }
+    
 })
 
-router.post('/', (req, res) => {
-    console.log(req.body)
+router.post('/', async (req, res, next) => {
+    try {
+        const logEntry = new LogEntry(req.body)
+        const createdEntry = await logEntry.save()
+        res.json(createdEntry)
+    } catch (e) {
+        if(e.name === 'ValidationError') {
+            res.status(422)
+        }
+        next(e)
+    }
 })
 
 module.exports = router

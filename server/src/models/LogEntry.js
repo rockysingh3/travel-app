@@ -4,7 +4,7 @@ const { Schema } = mongoose
 
 const requiredString = {
     type: String,
-    required: true
+    required: false
 }
 
 const requiredNumber = {
@@ -36,7 +36,7 @@ var logEnrySchema = new Schema({
       max: 180
   },
   visitDate: {
-      required: true,
+      required: false,
       type: Date,
   },
 }, {
